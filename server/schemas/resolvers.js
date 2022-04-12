@@ -39,7 +39,7 @@ const resolvers = {
 
         saveBook: {},
 
-        removeBook: {};
+        removeBook: {}
     }
 };
 
