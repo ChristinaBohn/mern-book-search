@@ -15,8 +15,32 @@ const resolvers = {
     },
 
     Mutation: {
+        addUser: async (parent, args) => {
+            const user = await User.create(args);
+            const token = signToken(user);
 
+            return { token, user };
+        },
+
+        login: async (parent, { email, password }) => {
+            const user = await User.findOne({ email });
+
+            if (!user) {
+                throw new AuthenticationError('Email is incorrect!');
+            }
+
+            const isCorrectPassword = await User.isCorrectPassword(password);
+
+            if (!correctPassword) throw new AuthenticationError('Password is incorrect!');
+
+            const token = signToken(user);
+            return { token, user };
+        },
+
+        saveBook: {},
+
+        removeBook: {};
     }
 };
 
-module.exports resolvers;
+module.exports = resolvers;
