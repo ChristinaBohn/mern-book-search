@@ -37,9 +37,37 @@ const resolvers = {
             return { token, user };
         },
 
-        saveBook: {},
+        saveBook: async (parent, args, context) => {
+            if (context.user) {
+                const updatedUser = User.findOneAndUpdate(
+                    {_id: context.user._id },
+                    { 
+                        $addToSet: {savedBooks: args.bookData},
+                    },
+                    {
+                        new: true,
+                        runValidators: true,
+                    }
+                );
+                return updatedUser
+            }
+            throw new AuthenticationError('Not logged in!');
+          },
 
-        removeBook: {}
+        removeBook: async (parent, args, context) => {
+            if (context.user) {
+                const updatedUser =  User.findOneAndUpdate(
+                    { _id: context.user._id },
+                    {
+                      $pull: {savedBooks: { bookId: args.bookId } },
+                    },
+                    { new: true }
+                  );
+    
+                  return updatedUser;
+            }
+            throw new AuthenticationError('Not logged in!');
+        }
     }
 };
 
