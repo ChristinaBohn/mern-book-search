@@ -17,6 +17,7 @@ const resolvers = {
     Mutation: {
         addUser: async (parent, args) => {
             const user = await User.create(args);
+            console.log(args)
             const token = signToken(user);
 
             return { token, user };
@@ -29,9 +30,9 @@ const resolvers = {
                 throw new AuthenticationError('Email is incorrect!');
             }
 
-            const isCorrectPassword = await User.isCorrectPassword(password);
+            const correctPw = await user.isCorrectPassword(password)
 
-            if (!correctPassword) throw new AuthenticationError('Password is incorrect!');
+            if (!correctPw) throw new AuthenticationError('Password is incorrect!');
 
             const token = signToken(user);
             return { token, user };

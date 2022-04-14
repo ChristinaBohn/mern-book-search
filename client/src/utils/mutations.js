@@ -8,7 +8,6 @@ export const LOGIN_USER = gql`
         _id
         username
         email
-        password
         savedBooks {
           bookId
           authors
@@ -30,7 +29,6 @@ export const ADD_USER = gql`
         _id
         username
         email
-        password
       }
     }
   }
@@ -60,7 +58,6 @@ mutation RemoveBook($bookId: ID!) {
     _id
     username
     email
-    password
     savedBooks {
       bookId
       authors
